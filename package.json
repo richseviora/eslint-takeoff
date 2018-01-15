@@ -1,0 +1,39 @@
+{
+  "name": "eslint-takeoff",
+  "version": "1.0.0",
+  "description": "ESLint todo list generator",
+  "main": "build/index.js",
+  "scripts": {
+    "test": "jest",
+    "prettify": "prettier --write '**/*.ts'",
+    "lint": "eslint ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/richseviora/eslint-takeoff.git"
+  },
+  "keywords": ["ESLint", "linting"],
+  "author": "Rich Seviora",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/richseviora/eslint-takeoff/issues"
+  },
+  "homepage": "https://github.com/richseviora/eslint-takeoff#readme",
+  "dependencies": {
+    "eslint": "^4.15.0",
+    "js-yaml": "^3.10.0",
+    "lodash": "^4.3.0",
+    "yamljs": "^0.3.0"
+  },
+  "devDependencies": {
+    "@types/lodash": "^4.14.92",
+    "@types/node": "^9.3.0",
+    "@types/yamljs": "^0.2.30",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-config-prettier": "^2.9.0",
+    "eslint-plugin-import": "^2.8.0",
+    "prettier": "^1.10.2",
+    "prettier-eslint": "^8.7.4",
+    "typescript": "^2.6.2"
+  }
+}
