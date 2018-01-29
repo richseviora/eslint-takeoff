@@ -6,7 +6,7 @@ import * as _ from "lodash";
 
 const newLint = new CLIEngine({
   allowInlineConfig: false,
-} as any);
+});
 
 interface LintTransformed {
   ruleId: string;
@@ -33,7 +33,10 @@ const parserGenerator = (filePath: string) => {
 };
 const resultParser = (result: LintResult) => {
   return _.uniqBy(result.messages.map(parserGenerator(result.filePath)), obj =>
-    JSON.stringify(obj),
+  {
+    console.info("Result Parser: ",obj);
+    return JSON.stringify(obj);
+  }
   ) as LintTransformed[];
 };
 const nestedResults = result.results.map(resultParser);
@@ -45,7 +48,7 @@ const baseTransformation = _.map(
     return {
       rule,
       filePaths: _.map(value, item => item.filePath).map(path =>
-        relative(__dirname, path),
+        relative(process.cwd(), path),
       ),
     };
   },

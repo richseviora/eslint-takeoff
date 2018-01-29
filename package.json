@@ -5,6 +5,8 @@
   "main": "build/index.js",
   "scripts": {
     "test": "jest",
+    "build": "tsc -d --outDir build",
+    "run-test": "node build/index.js",
     "prettify": "prettier --write '**/*.ts'",
     "lint": "eslint ."
   },
