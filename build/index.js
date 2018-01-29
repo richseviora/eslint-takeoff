@@ -9,7 +9,7 @@ var __assign = (this && this.__assign) || Object.assign || function(t) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var eslint_1 = require("eslint");
-var path_1 = require("path");
+var fileGrouping_1 = require("./fileGrouping");
 var fs = require("fs");
 var YAML = require("yamljs");
 var _ = require("lodash");
@@ -17,39 +17,7 @@ var newLint = new eslint_1.CLIEngine({
     allowInlineConfig: false,
 });
 var result = newLint.executeOnFiles(["."]);
-var parserGenerator = function (filePath) {
-    return function (message) { return ({
-        ruleId: message.ruleId,
-        filePath: filePath,
-    }); };
-};
-var resultParser = function (result) {
-    return _.uniqBy(result.messages.map(parserGenerator(result.filePath)), function (obj) {
-        console.info("Result Parser: ", obj);
-        return JSON.stringify(obj);
-    });
-};
-var nestedResults = result.results.map(resultParser);
-var flattenedResults = _.flatten(nestedResults);
-var groupedByRule = _.groupBy(flattenedResults, "ruleId");
-var baseTransformation = _.map(groupedByRule, function (value, rule) {
-    return {
-        rule: rule,
-        filePaths: _.map(value, function (item) { return item.filePath; }).map(function (path) {
-            return path_1.relative(process.cwd(), path);
-        }),
-    };
-});
-var sortedRules = _.sortBy(baseTransformation, "rule");
-var transformToOverrides = _.map(sortedRules, function (ruleAggregate) {
-    return {
-        rules: (_a = {},
-            _a[ruleAggregate.rule] = 0,
-            _a),
-        files: ruleAggregate.filePaths,
-    };
-    var _a;
-});
+var baseTransformation = fileGrouping_1.reportToFileGroup(result);
 function loadYAML(path) {
     return YAML.parse(fs.readFileSync(path, "utf8"));
 }
@@ -57,15 +25,14 @@ function outputToYaml(object) {
     return YAML.stringify(object, 10, 2);
 }
 function getNewConfig(object) {
-    var newExtend = _.uniq([
-        "./.eslintrc-todo.yml"
-    ].concat(object.extends)).reverse();
+    var newExtend = _.uniq([".eslintrc-todo.yml"].concat(object.extends)).reverse();
     return __assign({}, baseConfig, { extends: newExtend });
 }
+var overrides = fileGrouping_1.fileGroupsToOverride(baseTransformation);
 var baseConfig = loadYAML(".eslintrc.yml");
 var updatedBaseConfig = getNewConfig(baseConfig);
 var updatedBaseYAML = outputToYaml(updatedBaseConfig);
-var newToDoListConfig = outputToYaml({ overrides: transformToOverrides });
+var newToDoListConfig = outputToYaml({ overrides: overrides });
 fs.writeFileSync(".eslintrc-todo.yml", newToDoListConfig, { encoding: "utf8" });
 fs.writeFileSync(".eslintrc.yml", updatedBaseYAML, { encoding: "utf-8" });
 //# sourceMappingURL=index.js.map
