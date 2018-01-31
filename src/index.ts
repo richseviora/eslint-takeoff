@@ -13,7 +13,6 @@ const newLint = new CLIEngine({
 const result = newLint.executeOnFiles(["."]) as LintReport;
 const baseTransformation = reportToFileGroup(result);
 
-
 function loadYAML<T = any>(path: string): T {
   return YAML.parse(fs.readFileSync(path, "utf8"));
 }

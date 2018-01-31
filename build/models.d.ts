@@ -1,17 +1,17 @@
 /// <reference types="lodash" />
 export interface FileAggregated {
-    rules: string[];
-    filePath: string;
+  rules: string[];
+  filePath: string;
 }
 export interface LintTransformed {
-    ruleId: string;
-    filePath: string;
+  ruleId: string;
+  filePath: string;
 }
 export interface RuleAggregated {
-    rule: string;
-    filePaths: string[];
+  rule: string;
+  filePaths: string[];
 }
 export interface OverrideOutput {
-    rules: Map<string, number>;
-    files: string[];
+  rules: Map<string, number>;
+  files: string[];
 }
