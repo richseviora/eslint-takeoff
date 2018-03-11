@@ -1,7 +1,13 @@
 declare module "eslint" {
   class CLIEngine {
-    constructor(obj: any);
+    constructor(obj: ICLIEngineOptions);
     executeOnFiles(paths: string[]): LintReport;
+  }
+
+  interface ICLIEngineOptions {
+    allowInlineConfig?: boolean;
+    baseConfig?: false|any;
+    useEslintrc?: boolean;
   }
 
   type Level = "warn" | "error" | "off";

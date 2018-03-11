@@ -22,13 +22,14 @@ function getNewConfig(baseConfig: any): any {
 }
 
 export const execute = (level: Level) => {
+  const baseConfig = loadYAML(".eslintrc.yml");
   const newLint = new CLIEngine({
-    allowInlineConfig: false,
+    useEslintrc: false,
+    baseConfig,
   });
   const result = newLint.executeOnFiles(["."]) as LintReport;
   const baseTransformation = reportToFileGroup(result);
   const overrides = fileGroupsToOverride(baseTransformation, level);
-  const baseConfig = loadYAML(".eslintrc.yml");
   const updatedBaseConfig = getNewConfig(baseConfig);
   const updatedBaseYAML = outputToYaml(updatedBaseConfig);
   const newToDoListConfig = outputToYaml({ overrides });
