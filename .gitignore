@@ -58,3 +58,8 @@ typings/
 .env
 
 build
+
+.idea
+
+# Ignore the output todo file
+test/.eslint-todo.yml

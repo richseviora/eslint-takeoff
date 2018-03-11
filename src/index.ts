@@ -1,17 +1,9 @@
-import { CLIEngine, LintReport, LintResult, LintMessage } from "eslint";
-import { LintTransformed, RuleAggregated, OverrideOutput } from "./models";
+import { CLIEngine, LintReport } from "eslint";
 import { reportToRuleGroups, ruleGroupsToOverride } from "./ruleGrouping";
 import { reportToFileGroup, fileGroupsToOverride } from "./fileGrouping";
 import * as fs from "fs";
 import * as YAML from "yamljs";
 import * as _ from "lodash";
-
-const newLint = new CLIEngine({
-  allowInlineConfig: false,
-});
-
-const result = newLint.executeOnFiles(["."]) as LintReport;
-const baseTransformation = reportToFileGroup(result);
 
 function loadYAML<T = any>(path: string): T {
   return YAML.parse(fs.readFileSync(path, "utf8"));
@@ -28,6 +20,12 @@ function getNewConfig(object: any): any {
     extends: newExtend,
   };
 }
+
+const newLint = new CLIEngine({
+  allowInlineConfig: false,
+});
+const result = newLint.executeOnFiles(["."]) as LintReport;
+const baseTransformation = reportToFileGroup(result);
 const overrides = fileGroupsToOverride(baseTransformation);
 const baseConfig = loadYAML(".eslintrc.yml");
 const updatedBaseConfig = getNewConfig(baseConfig);

@@ -14,7 +14,10 @@
     "type": "git",
     "url": "git+https://github.com/richseviora/eslint-takeoff.git"
   },
-  "keywords": ["ESLint", "linting"],
+  "keywords": [
+    "ESLint",
+    "linting"
+  ],
   "author": "Rich Seviora",
   "license": "MIT",
   "bugs": {
@@ -22,6 +25,7 @@
   },
   "homepage": "https://github.com/richseviora/eslint-takeoff#readme",
   "dependencies": {
+    "caporal": "^0.10.0",
     "eslint": "^4.15.0",
     "js-yaml": "^3.10.0",
     "lodash": "^4.3.0",
