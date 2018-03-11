@@ -1,3 +1,5 @@
+import { Level } from "eslint";
+
 export interface FileAggregated {
   rules: string[];
   filePath: string;
@@ -14,6 +16,6 @@ export interface RuleAggregated {
 }
 
 export interface OverrideOutput {
-  rules: Map<string, number>;
+  rules: { [index: string]: Level | number };
   files: string[];
 }

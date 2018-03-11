@@ -1,7 +1,8 @@
-import { LintReport, LintResult } from "eslint";
+import { Level, LintReport, LintResult } from "eslint";
 import * as _ from "lodash";
 import { relative } from "path";
 import { FileAggregated, OverrideOutput } from "./models";
+import { Dictionary } from "lodash";
 
 function stripEmptyFiles(lintResults: LintResult[]): LintResult[] {
   return lintResults.filter(lintResult => lintResult.messages.length > 0);
@@ -14,11 +15,14 @@ export function reportToFileGroup(report: LintReport): FileAggregated[] {
   }));
 }
 
-export function fileGroupsToOverride(aggregate: FileAggregated[]): OverrideOutput[] {
+export function fileGroupsToOverride(
+  aggregate: FileAggregated[],
+  warningLevel: Level,
+): OverrideOutput[] {
   return _.map(aggregate, (ruleAggregate: FileAggregated): OverrideOutput => {
     const files = [relative(process.cwd(), ruleAggregate.filePath)];
-    const rules: Map<string, number> = _.fromPairs(
-      ruleAggregate.rules.map(rule => [rule, 0]),
+    const rules: Dictionary<any> = _.fromPairs(
+      ruleAggregate.rules.map(rule => [rule, warningLevel]),
     );
     return {
       rules,

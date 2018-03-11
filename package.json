@@ -1,14 +1,17 @@
 {
   "name": "eslint-takeoff",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "ESLint todo list generator",
   "main": "build/index.js",
   "scripts": {
     "test": "jest",
     "build": "tsc -d --outDir build",
-    "run-test": "node build/index.js",
-    "prettify": "prettier --write '**/*.ts'",
+    "run-test": "cd test && ../bin/eslint-takeoff.js",
+    "prettify": "prettier --write '**/*.@(ts|js)'",
     "lint": "eslint ."
+  },
+  "bin": {
+    "eslint-takeoff": "./bin/eslint-takeoff.js"
   },
   "repository": {
     "type": "git",

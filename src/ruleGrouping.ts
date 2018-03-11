@@ -1,14 +1,16 @@
-import { LintReport, LintMessage, LintResult } from "eslint";
+import { LintReport, LintMessage, LintResult, Level } from "eslint";
 import { RuleAggregated, LintTransformed, OverrideOutput } from "./models";
 import * as _ from "lodash";
 import { relative } from "path";
 
-const overrideGenerator = (ruleAggregate: RuleAggregated): OverrideOutput => {
-  return {
-    rules: {
-      [ruleAggregate.rule]: 0,
-    },
-    files: ruleAggregate.filePaths,
+const overrideMapGenerator = (warningLevel: Level) => {
+  return (ruleAggregate: RuleAggregated): OverrideOutput => {
+    return {
+      rules: {
+        [ruleAggregate.rule]: warningLevel,
+      },
+      files: ruleAggregate.filePaths,
+    };
   };
 };
 
@@ -29,21 +31,20 @@ export function reportToRuleGroups(report: LintReport): RuleAggregated[] {
   const nestedResults = report.results.map(resultParser);
   const flattenedResults = _.flatten(nestedResults) as LintTransformed[];
   const groupedByRule = _.groupBy(flattenedResults, "ruleId");
-  const baseTransformation = _.map(
-    groupedByRule,
-    (value: LintTransformed[], rule: string) => {
-      return {
-        rule,
-        filePaths: _.map(value, item => item.filePath).map(path =>
-          relative(process.cwd(), path),
-        ),
-      };
-    },
-  ) as RuleAggregated[];
-  return baseTransformation;
+  return _.map(groupedByRule, (value: LintTransformed[], rule: string) => {
+    return {
+      rule,
+      filePaths: _.map(value, item => item.filePath).map(path =>
+        relative(process.cwd(), path),
+      ),
+    };
+  }) as RuleAggregated[];
 }
 
-export function ruleGroupsToOverride(aggregate: RuleAggregated[]): OverrideOutput[] {
+export function ruleGroupsToOverride(
+  aggregate: RuleAggregated[],
+  warningLevel: Level,
+): OverrideOutput[] {
   const sortedRules = _.sortBy(aggregate, "rule");
-  return _.map(sortedRules, overrideGenerator);
+  return _.map(sortedRules, overrideMapGenerator(warningLevel));
 }

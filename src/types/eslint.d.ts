@@ -4,6 +4,8 @@ declare module "eslint" {
     executeOnFiles(paths: string[]): LintReport;
   }
 
+  type Level = "warn" | "error" | "off";
+
   interface LintMessage {
     ruleId: string;
     severity: number;
