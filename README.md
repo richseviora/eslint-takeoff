@@ -3,10 +3,13 @@ Utility that auto-generates ESLint todo-lists for an existing code base.
 
 # Installation
 
-Install globally (or locally, but this may not be the sort of package you'd keep around):
+Not yet a module, so you need to clone and then install from disk:
 
 ```
-npm install -g eslint-takeoff
+git clone https://github.com/richseviora/eslint-takeoff
+# In your project directory.
+npm install --save-dev <path_to_clone>
+yarn add -D <path_to_clone>
 ```
 
 # Usage
