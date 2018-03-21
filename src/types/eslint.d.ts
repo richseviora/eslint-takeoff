@@ -6,7 +6,7 @@ declare module "eslint" {
 
   interface ICLIEngineOptions {
     allowInlineConfig?: boolean;
-    baseConfig?: false|any;
+    baseConfig?: false | any;
     useEslintrc?: boolean;
   }
 
