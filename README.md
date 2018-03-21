@@ -3,20 +3,30 @@ Utility that auto-generates ESLint todo-lists for an existing code base.
 
 # Installation
 
-Not yet a module, so you need to clone and then install from disk:
-
 ```
-git clone https://github.com/richseviora/eslint-takeoff
-# In your project directory.
-npm install --save-dev <path_to_clone>
-yarn add -D <path_to_clone>
+npm install --save-dev eslint-takeoff
+yarn add -D eslint-takeoff
 ```
 
 # Usage
 
-Run at the project root with an `.eslintrc.yml` file.
+Run from project root with an `.eslintrc.yml` file:
+```
+npx eslint-takeoff
+yarn eslint-takeoff
+```
 
-Currently compatible with projects with rules configured in `.eslintrc.yml` only. Other configuration modes (JSON, JS) could be added in the future.
+## Options
+
+Accepts the following options:
+
+ Option | Name
+--- | ---
+ -o, -off | Creates the todo list with rules set to `off` instead of `warn`.
+
+
+Currently compatible with projects with rules configured in `.eslintrc.yml` only.
+
 
 # Development
 
@@ -24,5 +34,6 @@ Yarn is required, as is Node 8+:
 
 * Yarn 1.5.2
 * Node 8.9.4+
+* Typescript 2.6+
 
 
