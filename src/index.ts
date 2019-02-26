@@ -4,13 +4,10 @@ import { reportToFileGroup, fileGroupsToOverride } from "./fileGrouping";
 import * as fs from "fs";
 import * as YAML from "yamljs";
 import * as _ from "lodash";
+import { renderAsYAML } from "./renderer";
 
 function loadYAML<T = any>(path: string): T {
   return YAML.parse(fs.readFileSync(path, "utf8"));
-}
-
-function outputToYaml(object: any): string {
-  return YAML.stringify(object, 10, 2);
 }
 
 function getNewConfig(baseConfig: any): any {
@@ -31,8 +28,8 @@ export const execute = (level: Level) => {
   const baseTransformation = reportToFileGroup(result);
   const overrides = fileGroupsToOverride(baseTransformation, level);
   const updatedBaseConfig = getNewConfig(baseConfig);
-  const updatedBaseYAML = outputToYaml(updatedBaseConfig);
-  const newToDoListConfig = outputToYaml({ overrides });
+  const updatedBaseYAML = renderAsYAML(updatedBaseConfig, false);
+  const newToDoListConfig = renderAsYAML({ overrides }, true);
   fs.writeFileSync(".eslintrc-todo.yml", newToDoListConfig, { encoding: "utf8" });
   fs.writeFileSync(".eslintrc.yml", updatedBaseYAML, { encoding: "utf-8" });
 };
