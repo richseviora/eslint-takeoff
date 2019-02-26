@@ -4,13 +4,14 @@ import { reportToFileGroup, fileGroupsToOverride } from "./fileGrouping";
 import * as fs from "fs";
 import * as YAML from "yamljs";
 import * as _ from "lodash";
+import { renderAsYAML } from "./renderer";
 
 function loadYAML<T = any>(path: string): T {
   return YAML.parse(fs.readFileSync(path, "utf8"));
 }
 
 function outputToYaml(object: any): string {
-  return YAML.stringify(object, 10, 2);
+  return renderAsYAML(object);
 }
 
 function getNewConfig(baseConfig: any): any {
