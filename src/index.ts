@@ -10,10 +10,6 @@ function loadYAML<T = any>(path: string): T {
   return YAML.parse(fs.readFileSync(path, "utf8"));
 }
 
-function outputToYaml(object: any): string {
-  return renderAsYAML(object);
-}
-
 function getNewConfig(baseConfig: any): any {
   const newExtend = _.uniq([".eslintrc-todo.yml", ...baseConfig.extends]).reverse();
   return {
@@ -32,8 +28,8 @@ export const execute = (level: Level) => {
   const baseTransformation = reportToFileGroup(result);
   const overrides = fileGroupsToOverride(baseTransformation, level);
   const updatedBaseConfig = getNewConfig(baseConfig);
-  const updatedBaseYAML = outputToYaml(updatedBaseConfig);
-  const newToDoListConfig = outputToYaml({ overrides });
+  const updatedBaseYAML = renderAsYAML(updatedBaseConfig, false);
+  const newToDoListConfig = renderAsYAML({ overrides }, true);
   fs.writeFileSync(".eslintrc-todo.yml", newToDoListConfig, { encoding: "utf8" });
   fs.writeFileSync(".eslintrc.yml", updatedBaseYAML, { encoding: "utf-8" });
 };
