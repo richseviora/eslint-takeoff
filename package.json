@@ -1,6 +1,6 @@
 {
   "name": "eslint-takeoff",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "ESLint todo list generator",
   "main": "build/index.js",
   "scripts": {
