@@ -1,7 +1,9 @@
 import * as YAML from "yamljs";
 
 export function renderAsYAML(object: any, includeCommentBlock: boolean): string {
-  return generateYAMLCommentBlock() + renderConfiguration(object);
+  return includeCommentBlock
+    ? generateYAMLCommentBlock()
+    : "" + renderConfiguration(object);
 }
 
 function renderConfiguration(object: any): string {
